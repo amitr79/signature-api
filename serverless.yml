@@ -34,4 +34,30 @@ functions:
       - http:
           path: signature
           method: post
+          cors: true
           authorizer: aws_iam
+
+  get:
+    handler: get.main
+    events:
+      - http:
+          path: room
+          method: get
+          cors: true
+          authorizer: aws_iam
+
+cors:
+  origin: '*'
+  headers:
+    - Content-Type
+    - X-Amz-Date
+    - Authorization
+    - X-Api-Key
+    - X-Amz-Security-Token
+    - X-Amz-User-Agent
+  allowCredentials: false
+
+# Create our resources with separate CloudFormation templates
+resources:
+  # API Gateway Errors
+  - ${file(resources/api-gateway-errors.yml)}
